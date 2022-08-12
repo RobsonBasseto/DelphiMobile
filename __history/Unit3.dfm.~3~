@@ -1,0 +1,20 @@
+object dm: Tdm
+  OldCreateOrder = False
+  Height = 249
+  Width = 335
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=D:\Users\rrobasseto\Desktop\Mobile\BD\Banco.db'
+      'LockingMode=Normal'
+      'DriverID=SQLite')
+    Connected = True
+    LoginPrompt = False
+    Left = 24
+    Top = 16
+  end
+  object FDQueryPessoa: TFDQuery
+    Connection = FDConnection1
+    Left = 96
+    Top = 48
+  end
+end

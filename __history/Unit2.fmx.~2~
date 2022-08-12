@@ -1,0 +1,22 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 480
+  ClientWidth = 320
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object ImageViewer1: TImageViewer
+    Position.X = 72.000000000000000000
+    Position.Y = 184.000000000000000000
+    TabOrder = 2
+    Viewport.Width = 46.000000000000000000
+    Viewport.Height = 46.000000000000000000
+  end
+  object ActionList1: TActionList
+    Left = 72
+    Top = 48
+  end
+end
