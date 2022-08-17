@@ -6,16 +6,25 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, System.Actions,
   FMX.ActnList, FMX.Layouts, FMX.ExtCtrls, FMX.Controls.Presentation,
-  FMX.StdCtrls, FMX.Objects;
+  FMX.StdCtrls, FMX.Objects, FMX.Edit;
 
 type
-  TForm2 = class(TForm)
-    ActionList1: TActionList;
-    Layout1: TLayout;
+  TFrmCadastroCompleto = class(TForm)
+    ToolBarSuperior: TToolBar;
+    Label1: TLabel;
+    LayoutIcon: TLayout;
     Image1: TImage;
-    Button1: TButton;
-    Layout2: TLayout;
+    LayoutInferior: TLayout;
+    LayoutCentral: TLayout;
+    Label2: TLabel;
+    Label3: TLabel;
+    Edit2: TEdit;
+    Edit1: TEdit;
     Image2: TImage;
+    Button1: TButton;
+    Image3: TImage;
+    Button2: TButton;
+    Button3: TButton;
   private
     { Private declarations }
   public
@@ -23,7 +32,7 @@ type
   end;
 
 var
-  Form2: TForm2;
+  FrmCadastroCompleto: TFrmCadastroCompleto;
 
 implementation
 

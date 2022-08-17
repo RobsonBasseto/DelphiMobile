@@ -8,8 +8,8 @@ uses
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Edit, FMX.Objects, idHashSHA;
 
 type
-  TForm1 = class(TForm)
-    Z: TLayout;
+  TFrmCadastro = class(TForm)
+    LayoutCentral: TLayout;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -19,9 +19,9 @@ type
     Button1: TButton;
     Image3: TImage;
     Image1: TImage;
-    ToolBar1: TToolBar;
-    Layout1: TLayout;
-    Layout2: TLayout;
+    ToolBarSuperior: TToolBar;
+    LayoutInferior: TLayout;
+    LayoutIcon: TLayout;
     procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
@@ -31,30 +31,34 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FrmCadastro: TFrmCadastro;
 
 implementation
 
 {$R *.fmx}
 
-uses Unit3;
+uses Unit3, Unit2, Unit4;
 
-procedure TForm1.Button1Click(Sender: TObject);
+
+procedure TFrmCadastro.Button1Click(Sender: TObject);
 begin
-dm.FDQueryPessoa.Close;
-dm.FDQueryPessoa.Open();
+  //dm.FDQueryPessoa.Close;
+  //dm.FDQueryPessoa.Open();
 
-  if(Edit1.text = EmptyStr) or(Edit2.text = EmptyStr) then
-  Abort;
+  //if(Edit1.text = EmptyStr) or(Edit2.text = EmptyStr) then
+  //Abort;
 
-  dm.FDQueryPessoa.Append;
-  dm.FDQueryPessoaUsuario.AsString:= Edit1.Text;
-  dm.FDQueryPessoaSenha.AsString:= SHA1(Edit2.text);
-  dm.FDQueryPessoa.Post;
-  dm.FDConnection1.CommitRetaining;
+  //dm.FDQueryPessoa.Append;
+  //dm.FDQueryPessoaUsuario.AsString:= Edit1.Text;
+  //dm.FDQueryPessoaSenha.AsString:= SHA1(Edit2.text);
+  //dm.FDQueryPessoa.Post;
+  //dm.FDConnection1.CommitRetaining;
+
+  FrmPrincipal.Show();
+  FrmCadastro.Hide();
   end;
 
-function TForm1.SHA1(AString: string): string;
+function TFrmCadastro.SHA1(AString: string): string;
 var
 SenhaSH1: TIDhASHsha1;
 begin
