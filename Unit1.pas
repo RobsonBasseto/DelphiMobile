@@ -42,19 +42,19 @@ uses Unit3, Unit2, Unit4;
 
 procedure TFrmCadastro.Button1Click(Sender: TObject);
 begin
-  //dm.FDQueryPessoa.Close;
-  //dm.FDQueryPessoa.Open();
+  dm.FDQueryPessoa.Close;
+  dm.FDQueryPessoa.Open();
 
-  //if(Edit1.text = EmptyStr) or(Edit2.text = EmptyStr) then
-  //Abort;
+  if(Edit1.text = EmptyStr) or(Edit2.text = EmptyStr) then
+  Abort;
 
-  //dm.FDQueryPessoa.Append;
-  //dm.FDQueryPessoaUsuario.AsString:= Edit1.Text;
-  //dm.FDQueryPessoaSenha.AsString:= SHA1(Edit2.text);
-  //dm.FDQueryPessoa.Post;
-  //dm.FDConnection1.CommitRetaining;
+  dm.FDQueryPessoa.Append;
+  dm.FDQueryPessoaUsuario.AsString:= Edit1.Text;
+  dm.FDQueryPessoaSenha.AsString:= SHA1(Edit2.text);
+  dm.FDQueryPessoa.Post;
+  dm.FDConnection1.CommitRetaining;
 
-  FrmPrincipal.Show();
+  FrmLogin.Show();
   FrmCadastro.Hide();
   end;
 

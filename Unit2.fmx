@@ -1,4 +1,4 @@
-object FrmCadastroCompleto: TFrmCadastroCompleto
+object FrmLogin: TFrmLogin
   Left = 0
   Top = 0
   Caption = 'Form2'
@@ -20,7 +20,7 @@ object FrmCadastroCompleto: TFrmCadastroCompleto
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Center
-      Text = 'Complete seu cadastro'
+      Text = 'Login'
       TabOrder = 2
     end
   end
@@ -92,23 +92,6 @@ object FrmCadastroCompleto: TFrmCadastroCompleto
     Size.Height = 50.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 3
-    object Button2: TButton
-      Position.X = 232.000000000000000000
-      Size.Width = 89.000000000000000000
-      Size.Height = 57.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 1
-      Text = 'Button2'
-    end
-    object Button3: TButton
-      Position.X = -1.000000000000000000
-      Position.Y = 1.000000000000000000
-      Size.Width = 89.000000000000000000
-      Size.Height = 57.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 0
-      Text = 'Button2'
-    end
   end
   object LayoutCentral: TLayout
     Align = Client
@@ -117,29 +100,32 @@ object FrmCadastroCompleto: TFrmCadastroCompleto
     Size.PlatformDefault = False
     TabOrder = 0
     object Label2: TLabel
+      Position.X = 8.000000000000000000
       Position.Y = 24.000000000000000000
       Size.Width = 286.000000000000000000
       Size.Height = 23.000000000000000000
       Size.PlatformDefault = False
-      Text = 'Nome'
+      Text = 'E-mail'
       TabOrder = 1
     end
     object Label3: TLabel
+      Position.X = 8.000000000000000000
       Position.Y = 96.000000000000000000
       Size.Width = 113.000000000000000000
       Size.Height = 23.000000000000000000
       Size.PlatformDefault = False
-      Text = 'Telefone'
+      Text = 'Senha'
       TabOrder = 0
     end
     object Edit2: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       TabOrder = 3
+      Position.X = 8.000000000000000000
       Position.Y = 120.000000000000000000
-      Size.Width = 321.000000000000000000
+      Size.Width = 305.000000000000000000
       Size.Height = 32.000000000000000000
       Size.PlatformDefault = False
-      TextPrompt = 'Telefone'
+      TextPrompt = 'Senha'
     end
     object Edit1: TEdit
       Touch.InteractiveGestures = [LongTap, DoubleTap]
@@ -149,7 +135,7 @@ object FrmCadastroCompleto: TFrmCadastroCompleto
       Size.Width = 305.000000000000000000
       Size.Height = 32.000000000000000000
       Size.PlatformDefault = False
-      TextPrompt = 'Nome'
+      TextPrompt = 'E-mail'
       StyledSettings = [Family, Size, Style]
     end
     object Image2: TImage
@@ -196,6 +182,7 @@ object FrmCadastroCompleto: TFrmCadastroCompleto
       Size.PlatformDefault = False
       TabOrder = 6
       Text = 'Confirmar'
+      OnClick = Button1Click
     end
     object Image3: TImage
       MultiResBitmap = <
@@ -219,7 +206,7 @@ object FrmCadastroCompleto: TFrmCadastroCompleto
             BF1A4DACFF803E3517171797BF16CFFB04033042E8EC41EA2B0000000049454E
             44AE426082}
         end>
-      Position.X = 296.000000000000000000
+      Position.X = 288.000000000000000000
       Position.Y = 120.000000000000000000
       Size.Width = 26.000000000000000000
       Size.Height = 34.000000000000000000

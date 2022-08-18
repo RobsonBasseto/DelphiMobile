@@ -6,10 +6,10 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, System.Actions,
   FMX.ActnList, FMX.Layouts, FMX.ExtCtrls, FMX.Controls.Presentation,
-  FMX.StdCtrls, FMX.Objects, FMX.Edit;
+  FMX.StdCtrls, FMX.Objects, FMX.Edit, idHashSHA;
 
 type
-  TFrmCadastroCompleto = class(TForm)
+  TFrmLogin = class(TForm)
     ToolBarSuperior: TToolBar;
     Label1: TLabel;
     LayoutIcon: TLayout;
@@ -23,19 +23,58 @@ type
     Image2: TImage;
     Button1: TButton;
     Image3: TImage;
-    Button2: TButton;
-    Button3: TButton;
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    function SHA1(AString:string):string;
   end;
 
 var
-  FrmCadastroCompleto: TFrmCadastroCompleto;
+  FrmLogin: TFrmLogin;
 
 implementation
 
 {$R *.fmx}
+uses Unit3, Unit4;
 
+procedure TFrmLogin.Button1Click(Sender: TObject);
+var
+sql:String;
+begin
+   sql := 'select count(1) from pessoa ' +
+  ' where usuario = ' + (Edit1.Text) +
+  ' and senha = ' + SHA1(Edit2.Text)   ;
+begin
+dm.FDQueryPessoa.Close;
+dm.FDQueryPessoa.Open;
+if dm.FDQueryPessoa.Locate('usuario', Edit1.Text) and
+   dm.FDQueryPessoa.Locate('senha', SHA1(Edit2.Text)) then
+  begin
+  Showmessage('Seja Bem-Vindo');
+  FrmPrincipal.Show();
+  FrmLogin.close;
+  abort;
+end
+else
+abort;
+ Showmessage('Usuario ou Senha estão incorretos');
+ Edit1.Text:='';
+ Edit2.Text:='';
+ edit1.SetFocus;
+ end;
+end;
+
+function TFrmLogin.SHA1(AString: string): string;
+var
+SenhaSH1: TIDhASHsha1;
+begin
+SenhaSH1 := TIDhASHsha1.Create;
+  TRY
+    Result:= SenhaSH1.HashStringAsHex(AString);
+  FINALLY
+    SenhaSH1.Free;
+  END;
+end;
 end.
