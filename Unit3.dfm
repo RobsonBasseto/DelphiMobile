@@ -17,77 +17,64 @@ object dm: Tdm
   object FDQueryPessoa: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
-      'select * from pessoa')
+      'select * from pessoa'
+      'where email =:pNome;')
     Left = 32
     Top = 72
+    ParamData = <
+      item
+        Name = 'PNOME'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
     object FDQueryPessoaid: TFDAutoIncField
       FieldName = 'id'
-      Origin = 'id'
-      ProviderFlags = [pfInWhere, pfInKey]
       ReadOnly = True
     end
     object FDQueryPessoanome: TStringField
       FieldName = 'nome'
-      Origin = 'nome'
-      Size = 50
-    end
-    object FDQueryPessoausuario: TStringField
-      FieldName = 'usuario'
-      Origin = 'usuario'
-      Size = 50
-    end
-    object FDQueryPessoasenha: TStringField
-      FieldName = 'senha'
-      Origin = 'senha'
-      Size = 50
-    end
-    object FDQueryPessoatelefone: TStringField
-      FieldName = 'telefone'
-      Origin = 'telefone'
-      Size = 15
+      Size = 40
     end
     object FDQueryPessoacpf: TStringField
       FieldName = 'cpf'
-      Origin = 'cpf'
       Size = 11
     end
     object FDQueryPessoacelular: TStringField
       FieldName = 'celular'
-      Origin = 'celular'
       Size = 13
     end
     object FDQueryPessoaendereco: TStringField
       FieldName = 'endereco'
-      Origin = 'endereco'
       Size = 60
     end
     object FDQueryPessoacidade: TStringField
       FieldName = 'cidade'
-      Origin = 'cidade'
       Size = 60
     end
     object FDQueryPessoauf: TStringField
       FieldName = 'uf'
-      Origin = 'uf'
       FixedChar = True
       Size = 2
     end
     object FDQueryPessoabairro: TStringField
       FieldName = 'bairro'
-      Origin = 'bairro'
       Size = 60
     end
     object FDQueryPessoaemail: TStringField
       FieldName = 'email'
-      Origin = 'email'
       Size = 60
+    end
+    object FDQueryPessoasenha: TStringField
+      FieldName = 'senha'
+      Size = 40
     end
     object FDQueryPessoaimg_usuario: TBlobField
       FieldName = 'img_usuario'
-      Origin = 'img_usuario'
     end
   end
   object FDQueryProduto: TFDQuery
+    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'select * from produto')
@@ -97,6 +84,7 @@ object dm: Tdm
       FieldName = 'id'
       Origin = 'id'
       ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
     end
     object FDQueryProdutonome: TStringField
       FieldName = 'nome'

@@ -1,0 +1,125 @@
+object dm: Tdm
+  OldCreateOrder = False
+  Height = 249
+  Width = 335
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=D:\Users\rrobasseto\Desktop\Mobile\BD\Banco.db'
+      'LockingMode=Normal'
+      'DriverID=SQLite')
+    Connected = True
+    LoginPrompt = False
+    AfterConnect = FDConnection1AfterConnect
+    BeforeConnect = FDConnection1BeforeConnect
+    Left = 32
+    Top = 16
+  end
+  object FDQueryPessoa: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'select * from pessoa')
+    Left = 32
+    Top = 72
+    object FDQueryPessoaid: TFDAutoIncField
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object FDQueryPessoanome: TStringField
+      FieldName = 'nome'
+      Origin = 'nome'
+      Size = 50
+    end
+    object FDQueryPessoausuario: TStringField
+      FieldName = 'usuario'
+      Origin = 'usuario'
+      Size = 50
+    end
+    object FDQueryPessoasenha: TStringField
+      FieldName = 'senha'
+      Origin = 'senha'
+      Size = 50
+    end
+    object FDQueryPessoatelefone: TStringField
+      FieldName = 'telefone'
+      Origin = 'telefone'
+      Size = 15
+    end
+    object FDQueryPessoacpf: TStringField
+      FieldName = 'cpf'
+      Origin = 'cpf'
+      Size = 11
+    end
+    object FDQueryPessoacelular: TStringField
+      FieldName = 'celular'
+      Origin = 'celular'
+      Size = 13
+    end
+    object FDQueryPessoaendereco: TStringField
+      FieldName = 'endereco'
+      Origin = 'endereco'
+      Size = 60
+    end
+    object FDQueryPessoacidade: TStringField
+      FieldName = 'cidade'
+      Origin = 'cidade'
+      Size = 60
+    end
+    object FDQueryPessoauf: TStringField
+      FieldName = 'uf'
+      Origin = 'uf'
+      FixedChar = True
+      Size = 2
+    end
+    object FDQueryPessoabairro: TStringField
+      FieldName = 'bairro'
+      Origin = 'bairro'
+      Size = 60
+    end
+    object FDQueryPessoaemail: TStringField
+      FieldName = 'email'
+      Origin = 'email'
+      Size = 60
+    end
+    object FDQueryPessoaimg_usuario: TBlobField
+      FieldName = 'img_usuario'
+      Origin = 'img_usuario'
+    end
+  end
+  object FDQueryProduto: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'select * from produto')
+    Left = 32
+    Top = 128
+    object FDQueryProdutoid: TFDAutoIncField
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+    end
+    object FDQueryProdutonome: TStringField
+      FieldName = 'nome'
+      Origin = 'nome'
+    end
+    object FDQueryProdutodescricao: TStringField
+      FieldName = 'descricao'
+      Origin = 'descricao'
+      Size = 200
+    end
+    object FDQueryProdutovalor: TBCDField
+      FieldName = 'valor'
+      Origin = 'valor'
+      Precision = 14
+      Size = 2
+    end
+    object FDQueryProdutoquantidade: TIntegerField
+      FieldName = 'quantidade'
+      Origin = 'quantidade'
+    end
+    object FDQueryProdutoimg_produto: TBlobField
+      FieldName = 'img_produto'
+      Origin = 'img_produto'
+    end
+  end
+end

@@ -49,7 +49,7 @@ begin
   Abort;
 
   dm.FDQueryPessoa.Append;
-  dm.FDQueryPessoaUsuario.AsString:= Edit1.Text;
+  dm.FDQueryPessoaEmail.AsString:= Edit1.Text;
   dm.FDQueryPessoaSenha.AsString:= SHA1(Edit2.text);
   dm.FDQueryPessoa.Post;
   dm.FDConnection1.CommitRetaining;

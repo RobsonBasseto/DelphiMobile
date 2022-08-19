@@ -6,7 +6,8 @@ uses
   Unit1 in 'Unit1.pas' {FrmCadastro},
   Unit2 in 'Unit2.pas' {FrmLogin},
   Unit3 in 'Unit3.pas' {dm: TDataModule},
-  Unit4 in 'Unit4.pas' {FrmPrincipal};
+  Unit4 in 'Unit4.pas' {FrmPrincipal},
+  Unit5 in 'Unit5.pas' {FrmLista};
 
 {$R *.res}
 
@@ -16,5 +17,6 @@ begin
   Application.CreateForm(TFrmLogin, FrmLogin);
   Application.CreateForm(Tdm, dm);
   Application.CreateForm(TFrmPrincipal, FrmPrincipal);
+  Application.CreateForm(TFrmLista, FrmLista);
   Application.Run;
 end.

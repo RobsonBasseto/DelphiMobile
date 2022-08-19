@@ -44,8 +44,11 @@ var
 senha:String;
 begin
   senha := SHA1(Edit2.Text);
-  if(Edit1.Text = dm.FDQueryPessoaEmail.AsString) and
-  (Edit2.Text = dm.FDQueryPessoaSenha.AsString)then
+  dm.FDQueryPessoa.Close;
+  dm.FDQueryPessoa.ParamByName('pnome').AsString := Edit1.Text;
+  dm.FDQueryPessoa.Open();
+
+  if not (dm.FDQueryPessoa.IsEmpty) and (dm.FDQueryPessoaSenha.AsString = senha) then
   begin
     if not Assigned(FrmLista) then
     Application.CreateForm(TFrmLista, FrmLista);
