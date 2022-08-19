@@ -21,20 +21,6 @@ type
     FDQueryPessoasenha: TStringField;
     FDQueryPessoatelefone: TStringField;
     FDQueryProduto: TFDQuery;
-    FDQueryProdutoid: TFDAutoIncField;
-    FDQueryProdutonome: TStringField;
-    FDQueryProdutodescricao: TStringField;
-    FDQueryProdutovalor: TBCDField;
-    FDQueryProdutoquantidade: TIntegerField;
-    FDQueryProdutoimg_produto: TBlobField;
-    FDQueryPessoacpf: TStringField;
-    FDQueryPessoacelular: TStringField;
-    FDQueryPessoaendereco: TStringField;
-    FDQueryPessoacidade: TStringField;
-    FDQueryPessoauf: TStringField;
-    FDQueryPessoabairro: TStringField;
-    FDQueryPessoaemail: TStringField;
-    FDQueryPessoaimg_usuario: TBlobField;
     procedure FDConnection1BeforeConnect(Sender: TObject);
     procedure FDConnection1AfterConnect(Sender: TObject);
   private

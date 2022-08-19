@@ -41,28 +41,24 @@ uses Unit3, Unit4;
 
 procedure TFrmLogin.Button1Click(Sender: TObject);
 var
-sql:String;
-begin
-   sql := 'select count(1) from pessoa ' +
-  ' where usuario = ' + (Edit1.Text) +
-  ' and senha = ' + SHA1(Edit2.Text)   ;
+senha:String;
 begin
 dm.FDQueryPessoa.Close;
 dm.FDQueryPessoa.Open;
 if dm.FDQueryPessoa.Locate('usuario', Edit1.Text) and
    dm.FDQueryPessoa.Locate('senha', SHA1(Edit2.Text)) then
   begin
-  Showmessage('bem vindo ao sistema');
+  Showmessage('Seja Bem-Vindo');
   FrmPrincipal.Show();
   FrmLogin.close;
   abort;
 end
 else
 abort;
- Showmessage('nome ou senha incorretos');
- editSenha.Text:='';
- editUsuario.Text:='';
- editUsuario.SetFocus;
+ Showmessage('Usuario ou Senha estão incorretos');
+ Edit1.Text:='';
+ Edit2.Text:='';
+ edit1.SetFocus;
  end;
 end;
 

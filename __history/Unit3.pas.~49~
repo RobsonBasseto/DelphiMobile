@@ -20,21 +20,6 @@ type
     FDQueryPessoausuario: TStringField;
     FDQueryPessoasenha: TStringField;
     FDQueryPessoatelefone: TStringField;
-    FDQueryProduto: TFDQuery;
-    FDQueryProdutoid: TFDAutoIncField;
-    FDQueryProdutonome: TStringField;
-    FDQueryProdutodescricao: TStringField;
-    FDQueryProdutovalor: TBCDField;
-    FDQueryProdutoquantidade: TIntegerField;
-    FDQueryProdutoimg_produto: TBlobField;
-    FDQueryPessoacpf: TStringField;
-    FDQueryPessoacelular: TStringField;
-    FDQueryPessoaendereco: TStringField;
-    FDQueryPessoacidade: TStringField;
-    FDQueryPessoauf: TStringField;
-    FDQueryPessoabairro: TStringField;
-    FDQueryPessoaemail: TStringField;
-    FDQueryPessoaimg_usuario: TBlobField;
     procedure FDConnection1BeforeConnect(Sender: TObject);
     procedure FDConnection1AfterConnect(Sender: TObject);
   private
@@ -76,13 +61,12 @@ begin
   'id integer not null primary key autoincrement,'+
   'nome varchar(20),'+
   'descricao varchar(200),'+
-  'valor numeric(14,2),'+
+  'valor numeric(14,2)'+
   'quantidade integer,'+
-  'img_produto blob';
+  'img_produto blob,';
   FDConnection1.ExecSQL(strSQL);
 
-  FDQueryPessoa.Active:=true;
-  FDQueryProduto.Active:=true;
+  FDQueryPes
 end;
 
 procedure Tdm.FDConnection1BeforeConnect(Sender: TObject);

@@ -37,33 +37,24 @@ var
 implementation
 
 {$R *.fmx}
-uses Unit3, Unit4;
+uses Unit3, Unit4, Unit5;
 
 procedure TFrmLogin.Button1Click(Sender: TObject);
 var
-sql:String;
+senha:String;
 begin
-   sql := 'select count(1) from pessoa ' +
-  ' where usuario = ' + (Edit1.Text) +
-  ' and senha = ' + SHA1(Edit2.Text)   ;
-begin
-dm.FDQueryPessoa.Close;
-dm.FDQueryPessoa.Open;
-if dm.FDQueryPessoa.Locate('usuario', Edit1.Text) and
-   dm.FDQueryPessoa.Locate('senha', SHA1(Edit2.Text)) then
+  senha := SHA1(Edit2.Text);
+  if(Edit1.Text = dm.FDQueryPessoaEmail.AsString) and
+  (Edit2.Text = dm.FDQueryPessoaSenha.AsString)then
   begin
-  Showmessage('Seja Bem-Vindo');
-  FrmPrincipal.Show();
-  FrmLogin.close;
-  abort;
-end
-else
-abort;
- Showmessage('Usuario ou Senha estão incorretos');
- Edit1.Text:='';
- Edit2.Text:='';
- edit1.SetFocus;
- end;
+    if not Assigned(FrmLista) then
+    Application.CreateForm(TFrmLista, FrmLista);
+    FrmLista.Show;
+  end
+  else
+  begin
+    ShowMessage('Login ou senha incorretos');
+  end;
 end;
 
 function TFrmLogin.SHA1(AString: string): string;
