@@ -1,0 +1,247 @@
+unit Unit5;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes,
+  System.Variants, IOUtils,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
+  FMX.Edit, FMX.Objects, FMX.Ani, FMX.Controls.Presentation, FMX.Layouts,
+  FMX.TabControl, FMX.MultiView, System.Actions, FMX.ActnList;
+
+type
+  TFrmPrincipal = class(TForm)
+    ToolBar1: TToolBar;
+    Button1: TButton;
+    MultiView1: TMultiView;
+    Button2: TButton;
+    Layout1: TLayout;
+    Image4: TImage;
+    Label1: TLabel;
+    ActionList1: TActionList;
+    ChangeTabAction1: TChangeTabAction;
+    ChangeTabAction2: TChangeTabAction;
+    ChangeTabAction3: TChangeTabAction;
+    Z: TTabControl;
+    TabItem1: TTabItem;
+    VertScrollBoxMinhaLista: TVertScrollBox;
+    TabItem2: TTabItem;
+    VertScrollFavoritos: TVertScrollBox;
+    TabItem3: TTabItem;
+    Layout2: TLayout;
+    Layout3: TLayout;
+    Image5: TImage;
+    Layout4: TLayout;
+    Label5: TLabel;
+    Label6: TLabel;
+    editSenhaLogin: TEdit;
+    editUsuarioLogin: TEdit;
+    BtnLogin: TButton;
+    Edit1: TEdit;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Label3: TLabel;
+    Edit3: TEdit;
+    Label4: TLabel;
+    Edit4: TEdit;
+    Label7: TLabel;
+    Label8: TLabel;
+    Edit5: TEdit;
+    Label9: TLabel;
+    Edit6: TEdit;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    procedure CarregarListaProdutos(id: integer; nome, descricao: string;
+      valor: double);
+    function favorito(id: integer): boolean;
+    procedure AddFavoritos(Sender: TObject);
+    procedure GetProdutosBase;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmPrincipal: TFrmPrincipal;
+
+implementation
+
+{$R *.fmx}
+
+uses UDM;
+{ TFrmLista }
+
+procedure TFrmPrincipal.AddFavoritos(Sender: TObject);
+begin
+  var
+    AId: string;
+  begin
+    AId := (TRectangle(Sender).TagString);
+
+    dm.FDQueryProduto.Locate('id', AId, []);
+    dm.FDQueryProduto.Edit;
+    dm.FDQueryProdutofavorito.AsString := 'S';
+    dm.FDQueryProduto.Post;
+    ShowMessage('Adicionado ao seus favoritos');
+  end;
+end;
+
+procedure TFrmPrincipal.CarregarListaProdutos(id: integer; nome, descricao: string;
+  valor: double);
+var
+  rect, rect_barra: TRectangle;
+  rect_icone: TCircle;
+  lbl: TLabel;
+  img: TImage;
+  i, valorEstrela: integer;
+begin
+
+  // fundo
+  rect := TRectangle.Create(VertScrollBoxMinhaLista);
+  with rect do
+  begin
+    Align := TAlignLayout.Top;
+    Height := 110;
+    Fill.Color := $FFFFFFFF;
+    Stroke.Kind := TBrushKind.Solid;
+    Stroke.Color := $FFD4D5D7;
+    Margins.Top := 10;
+    Margins.Left := 10;
+    Margins.Right := 10;
+    XRadius := 8;
+    YRadius := 8;
+    TagString := IntToStr(id);
+  end;
+  // Barra inferior...
+  rect_barra := TRectangle.Create(rect);
+  with rect_barra do
+  begin
+    Align := TAlignLayout.Bottom;
+    Height := 45;
+    Fill.Color := $FFF4F4F4;
+    Stroke.Kind := TBrushKind.Solid;
+    Stroke.Color := $FFD4D5D7;
+    Sides := [TSide.Left, TSide.Bottom, TSide.Right];
+    XRadius := 8;
+    YRadius := 8;
+    Corners := [TCorner.BottomLeft, TCorner.BottomRight];
+    HitTest := False;
+    rect.AddObject(rect_barra);
+  end;
+
+  lbl := TLabel.Create(rect);
+  with lbl do
+  begin
+    StyledSettings := StyledSettings - [TStyledSetting.Size,
+      TStyledSetting.FontColor, TStyledSetting.Style];
+    TextSettings.FontColor := $FF333333;
+    Text := nome;
+    font.Size := 16;
+    font.Style := [TFontStyle.fsBold];
+    Position.x := 50;
+    Position.Y := 10;
+    Width := 200;
+    rect.AddObject(lbl);
+  end;
+  lbl := TLabel.Create(rect_barra);
+  with lbl do
+  begin
+    StyledSettings := StyledSettings - [TStyledSetting.Size,
+      TStyledSetting.FontColor, TStyledSetting.Style];
+    TextSettings.FontColor := $FFDF0B0B;
+    Text := descricao;
+    font.Size := 11;
+    font.Style := [TFontStyle.fsBold];
+    Position.x := 5;
+    Position.Y := 70;
+    Width := 500;
+    rect.AddObject(lbl);
+  end;
+  // ImgFavoritos
+  img := TImage.Create(rect);
+  if not favorito(id) then
+  begin
+    with img do
+    begin
+{$IFDEF MSWINDOWS}
+      Bitmap.LoadFromFile
+        (IOUtils.TPath.Combine('D:\Users\rrobasseto\Desktop\Mobile\img',
+        'heart_nosel.png'));
+{$ENDIF}
+{$IF DEFINED(iOS) or DEFINED(ANDROID)}
+      Bitmap.LoadFromFile
+        (IOUtils.TPath.Combine(System.IOUtils.TPath.GetDocumentsPath,
+        'heart_nosel.png'));
+{$ENDIF}
+      Height := 30;
+      Width := 30;
+      Position.x := 210;
+      Position.Y := 5;
+      name := 'imgheartNoSel' + IntToStr(id);
+      TagString := IntToStr(id);
+      OnClick := AddFavoritos;
+      Visible := true;
+      rect.AddObject(img);
+    end;
+  end
+  else
+  begin
+
+    with img do
+    begin
+{$IFDEF MSWINDOWS}
+      Bitmap.LoadFromFile
+        (IOUtils.TPath.Combine('D:\Users\rrobasseto\Desktop\Mobile\img',
+        'heart_yessel.png'));
+{$ENDIF}
+{$IF DEFINED(iOS) or DEFINED(ANDROID)}
+      Bitmap.LoadFromFile
+        (IOUtils.TPath.Combine(System.IOUtils.TPath.GetDocumentsPath,
+        'heart_yessel.png'));
+{$ENDIF}
+      Height := 30;
+      Width := 30;
+      Position.x := 210;
+      Position.Y := 5;
+      name := 'imgheartYesSel' + IntToStr(id);
+      TagString := IntToStr(id);
+      Visible := true;
+      rect.AddObject(img);
+    end;
+  end;
+  VertScrollBoxMinhaLista.AddObject(rect);
+end;
+
+function TFrmPrincipal.favorito(id: integer): boolean;
+begin
+  dm.FDQFavoritos.Close;
+  dm.FDQFavoritos.ParamByName('pIdProduto').AsInteger := id;
+  dm.FDQFavoritos.Open();
+
+  if not dm.FDQFavoritos.IsEmpty then
+    Result := true
+  else
+    Result := False;
+end;
+
+procedure TFrmPrincipal.FormCreate(Sender: TObject);
+begin
+  ChangeTabAction1.Execute;
+  GetProdutosBase;
+end;
+
+procedure TFrmPrincipal.GetProdutosBase;
+begin
+  dm.FDQueryProduto.Close;
+  dm.FDQueryProduto.Open();
+  while not dm.FDQueryProduto.Eof do
+  begin
+    CarregarListaProdutos(dm.FDQueryProdutoid.AsInteger,
+      dm.FDQueryProdutonome.AsString, dm.FDQueryProdutodescricao.AsString,
+      dm.FDQueryProdutovalor.AsFloat);
+    dm.FDQueryProduto.next;
+  end;
+end;
+
+end.

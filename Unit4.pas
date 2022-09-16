@@ -19,7 +19,6 @@ type
     TabItem2: TTabItem;
     TabItem3: TTabItem;
     Image1: TImage;
-    Image2: TImage;
     Image3: TImage;
     ChangeTabAction1: TChangeTabAction;
     ChangeTabAction2: TChangeTabAction;
