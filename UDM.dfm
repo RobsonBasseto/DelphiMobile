@@ -206,4 +206,18 @@ object dm: Tdm
       Origin = 'img_produto'
     end
   end
+  object FDQPedido: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'select * from pedido')
+    Left = 200
+    Top = 64
+  end
+  object FDQItemPedido: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'select * from itempedido')
+    Left = 256
+    Top = 136
+  end
 end

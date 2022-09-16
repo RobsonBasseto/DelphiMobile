@@ -49,6 +49,8 @@ type
     FDQListaFavoritosquantidade: TIntegerField;
     FDQListaFavoritosfavorito: TStringField;
     FDQListaFavoritosimg_produto: TBlobField;
+    FDQPedido: TFDQuery;
+    FDQItemPedido: TFDQuery;
     procedure FDConnection1BeforeConnect(Sender: TObject);
     procedure FDConnection1AfterConnect(Sender: TObject);
   private
@@ -96,10 +98,32 @@ begin
   'img_produto blob)';
   FDConnection1.ExecSQL(strSQL);
 
+  strSQL := EmptyStr;
+  strSQL := 'create table IF NOT EXIST pedido('+
+  'id integer primary key,'+
+  'idpessoa integer,'+
+  'datahora datetime,'+
+  'vlrtotal numeric(8,2),'+
+  'foreign key (idpessoa) references pessoa(id))';
+  FDConnection1.ExecSQL(strSQL);
+
+  strSQL := EmptyStr;
+  strSQL := 'create table IF NOT EXIST itemPedido('+
+  'id integer primary key,'+
+  'idproduto integer,'+
+  'idpedido integer,'+
+  'qteproduto integer,'+
+  'vlritem numeric(8,2),'+
+  'foreign key (idproduto) references produto(id)'+
+  'foreign key (idpedido) references pedido(id))';
+  FDConnection1.ExecSQL(strSQL);
+
   FDQueryPessoa.Active:=true;
   FDQueryProduto.Active:=true;
   FDQFavoritos.Active :=true;
   FDQListaFavoritos.Active:=true;
+  FDQPedido.Active:=true;
+  FDQItemPedido.Active:=true;
 
 end;
 

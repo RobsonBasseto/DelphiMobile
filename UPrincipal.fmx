@@ -154,7 +154,7 @@ object FrmPrincipal: TFrmPrincipal
               Text = 'CPF'
               TabOrder = 6
             end
-            object editSenhaLogin: TEdit
+            object EditCPF: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               TabOrder = 15
               Position.X = 8.000000000000000000
@@ -164,7 +164,7 @@ object FrmPrincipal: TFrmPrincipal
               Size.PlatformDefault = False
               TextPrompt = 'CPF'
             end
-            object editUsuarioLogin: TEdit
+            object EditNome: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               TabOrder = 8
               Position.X = 8.000000000000000000
@@ -184,7 +184,7 @@ object FrmPrincipal: TFrmPrincipal
               TabOrder = 17
               Text = 'Confirmar'
             end
-            object Edit1: TEdit
+            object EditCelular: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               TabOrder = 14
               Position.X = 167.000000000000000000
@@ -203,7 +203,7 @@ object FrmPrincipal: TFrmPrincipal
               Text = 'Celular'
               TabOrder = 5
             end
-            object Edit2: TEdit
+            object EditEmail: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               TabOrder = 13
               Position.X = 7.000000000000000000
@@ -222,7 +222,7 @@ object FrmPrincipal: TFrmPrincipal
               Text = 'E-mail'
               TabOrder = 4
             end
-            object Edit3: TEdit
+            object EditEndereco: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               TabOrder = 12
               Position.X = 7.000000000000000000
@@ -241,7 +241,7 @@ object FrmPrincipal: TFrmPrincipal
               Text = 'Endere'#231'o'
               TabOrder = 3
             end
-            object Edit4: TEdit
+            object EditCidade: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               TabOrder = 10
               Position.X = 7.000000000000000000
@@ -269,7 +269,7 @@ object FrmPrincipal: TFrmPrincipal
               Text = 'UF'
               TabOrder = 0
             end
-            object Edit5: TEdit
+            object EditUF: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               TabOrder = 9
               Position.X = 183.000000000000000000
@@ -288,7 +288,7 @@ object FrmPrincipal: TFrmPrincipal
               Text = 'Bairro'
               TabOrder = 2
             end
-            object Edit6: TEdit
+            object EditBairro: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               TabOrder = 11
               Position.X = 7.000000000000000000

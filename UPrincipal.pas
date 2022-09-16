@@ -32,21 +32,21 @@ type
     Layout4: TLayout;
     Label5: TLabel;
     Label6: TLabel;
-    editSenhaLogin: TEdit;
-    editUsuarioLogin: TEdit;
+    EditCPF: TEdit;
+    EditNome: TEdit;
     BtnLogin: TButton;
-    Edit1: TEdit;
+    EditCelular: TEdit;
     Label2: TLabel;
-    Edit2: TEdit;
+    EditEmail: TEdit;
     Label3: TLabel;
-    Edit3: TEdit;
+    EditEndereco: TEdit;
     Label4: TLabel;
-    Edit4: TEdit;
+    EditCidade: TEdit;
     Label7: TLabel;
     Label8: TLabel;
-    Edit5: TEdit;
+    EditUF: TEdit;
     Label9: TLabel;
-    Edit6: TEdit;
+    EditBairro: TEdit;
     Button3: TButton;
     Layout1: TLayout;
     Salvar: TButton;
@@ -61,11 +61,14 @@ type
       valor: double);
     procedure GetProdutosBase;
     procedure GetProdutosFavoritos;
+    procedure GetInforamacoesUsuario;
     procedure AddFavoritos(Sender: TObject);
+     procedure AddItem(Sender: TObject);
     function favorito(id: integer): boolean;
 
   public
     { Public declarations }
+     vlrTotal: double;
   end;
 
 var
@@ -89,6 +92,25 @@ begin
   dm.FDQueryProdutofavorito.AsString := 'S';
   dm.FDQueryProduto.Post;
   ShowMessage('Adicionado ao seus favoritos');
+end;
+
+procedure TFrmPrincipal.AddItem(Sender: TObject);
+begin
+dm.FDQueryProduto.Locate('id',TButton(Sender).TagString,[]);
+vlrtotal := dm.FDQueryProdutovalor.AsFloat;
+dm.FDQPedido.Append;
+dm.FDQPedido.FieldByName('idPessoa').AsInteger := dm.FDQueryPessoaid.AsInteger;
+dm.FDQPedido.FieldByName('datahora').AsDateTime := now;
+dm.FDQPedido.FieldByName('vlrpedido').AsFloat := vlrtotal;
+dm.FDQPedido.FieldByName('statuspedido').AsString := 'A';
+dm.FDQPedido.Post;
+
+dm.FDQItemPedido.FieldByName('idpedido').AsInteger :=dm.FDQPedido.FieldByName('id').AsInteger;
+dm.FDQItemPedido.FieldByName('idproduto').AsInteger := dm.FDQueryProdutoid.AsInteger;
+dm.FDQItemPedido.FieldByName('qteproduto').AsInteger := dm.FDQItemPedido.FieldByName('qteproduto').AsInteger + 1;
+dm.FDQItemPedido.FieldByName('vlritem').AsFloat := dm.FDQueryProdutovalor.AsFloat;
+dm.FDQItemPedido.Post;
+
 end;
 
 procedure TFrmPrincipal.Button3Click(Sender: TObject);
@@ -166,6 +188,15 @@ begin
     Width := 500;
     rect.AddObject(lbl);
   end;
+
+  lbl := TLabel.Create(react_barra);
+  with lbl do
+  begin
+    StyledSettings := StyledSettings - [TStyledSetting.Size,
+      TStyledSetting.FontColor, TStyledSetting.Style];
+
+  end;
+
   // ImgFavoritos
   img := TImage.Create(rect);
   if not favorito(id) then
@@ -363,6 +394,24 @@ begin
   GetProdutosBase;
   GetProdutosFavoritos;
   ChangeTabAction1.Execute;
+end;
+
+procedure TFrmPrincipal.GetInforamacoesUsuario;
+begin
+  dm.FDQueryPessoa.Close;
+  dm.FDQueryPessoa.Open();
+while not dm.FDQueryPessoa.Eof do
+begin
+    EditNome.text := dm.FDQueryPessoanome.AsString;
+    EditCPF.text := dm.FDQueryPessoacpf.AsString;
+    EditCelular.text := dm.FDQueryPessoacelular.AsString;
+    EditEmail.text := dm.FDQueryPessoaemail.AsString;
+    EditEndereco.text := dm.FDQueryPessoaendereco.AsString;
+    EditCidade.text := dm.FDQueryPessoacidade.AsString;
+    EditUF.text := dm.FDQueryPessoauf.AsString;
+    EditBairro.text := dm.FDQueryPessoabairro.AsString;
+    dm.FDQueryPessoa.next;
+end;
 end;
 
 procedure TFrmPrincipal.GetProdutosBase;
