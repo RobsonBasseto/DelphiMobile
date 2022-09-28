@@ -40,7 +40,7 @@ object FrmPrincipal: TFrmPrincipal
     Size.PlatformDefault = False
     StyleLookup = 'tabcontrolstyle'
     TabHeight = 49.000000000000000000
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 2
     TabPosition = Dots
     Sizes = (
@@ -54,7 +54,7 @@ object FrmPrincipal: TFrmPrincipal
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
@@ -107,7 +107,7 @@ object FrmPrincipal: TFrmPrincipal
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 8.000000000000000000
       Size.Height = 8.000000000000000000
       Size.PlatformDefault = False
@@ -303,6 +303,7 @@ object FrmPrincipal: TFrmPrincipal
               Position.Y = 8.000000000000000000
               TabOrder = 19
               Text = 'Salvar'
+              OnClick = SalvarClick
             end
           end
         end

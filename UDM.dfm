@@ -15,7 +15,6 @@ object dm: Tdm
     Top = 16
   end
   object FDQueryPessoa: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'select * from pessoa'
@@ -120,7 +119,6 @@ object dm: Tdm
     end
   end
   object FDQFavoritos: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'select * from produto where id = :pIdProduto'
@@ -219,5 +217,20 @@ object dm: Tdm
       'select * from itempedido')
     Left = 256
     Top = 136
+  end
+  object FDQueryLogado: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'select * from pessoa where id =:pid')
+    Left = 32
+    Top = 184
+    ParamData = <
+      item
+        Name = 'PID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
   end
 end

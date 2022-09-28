@@ -4,7 +4,6 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   UCadastro in 'UCadastro.pas' {FrmCadastro},
-  ULogin in 'ULogin.pas' {FrmLogin},
   UDM in 'UDM.pas' {dm: TDataModule},
   UPrincipal in 'UPrincipal.pas' {FrmPrincipal};
 
@@ -13,7 +12,6 @@ uses
 begin
   Application.Initialize;
   Application.CreateForm(TFrmCadastro, FrmCadastro);
-  Application.CreateForm(TFrmLogin, FrmLogin);
   Application.CreateForm(Tdm, dm);
   Application.CreateForm(TFrmPrincipal, FrmPrincipal);
   Application.Run;

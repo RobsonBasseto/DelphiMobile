@@ -53,22 +53,22 @@ type
     VertScrollBox1: TVertScrollBox;
     procedure FormCreate(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure SalvarClick(Sender: TObject);
   private
     { Private declarations }
     procedure CarregarListaProdutos(id: integer; nome, descricao: string;
       valor: double);
-    procedure CarregarListaFavoritos(id: integer; nome, descricao: string;
-      valor: double);
+    procedure CarregarListaFavoritos;
     procedure GetProdutosBase;
-    procedure GetProdutosFavoritos;
     procedure GetInforamacoesUsuario;
     procedure AddFavoritos(Sender: TObject);
-     procedure AddItem(Sender: TObject);
+    procedure RemoverFavoritos(Sender: TObject);
+    procedure AddItem(Sender: TObject);
     function favorito(id: integer): boolean;
 
   public
     { Public declarations }
-     vlrTotal: double;
+    vlrTotal: double;
   end;
 
 var
@@ -78,7 +78,7 @@ implementation
 
 {$R *.fmx}
 
-uses UDM;
+uses UDM, UCadastro;
 
 { TFrmPrincipal }
 
@@ -96,20 +96,25 @@ end;
 
 procedure TFrmPrincipal.AddItem(Sender: TObject);
 begin
-dm.FDQueryProduto.Locate('id',TButton(Sender).TagString,[]);
-vlrtotal := dm.FDQueryProdutovalor.AsFloat;
-dm.FDQPedido.Append;
-dm.FDQPedido.FieldByName('idPessoa').AsInteger := dm.FDQueryPessoaid.AsInteger;
-dm.FDQPedido.FieldByName('datahora').AsDateTime := now;
-dm.FDQPedido.FieldByName('vlrpedido').AsFloat := vlrtotal;
-dm.FDQPedido.FieldByName('statuspedido').AsString := 'A';
-dm.FDQPedido.Post;
+  dm.FDQueryProduto.Locate('id', TButton(Sender).TagString, []);
+  vlrTotal := dm.FDQueryProdutovalor.AsFloat;
+  dm.FDQPedido.Append;
+  dm.FDQPedido.FieldByName('idPessoa').AsInteger :=
+    dm.FDQueryPessoaid.AsInteger;
+  dm.FDQPedido.FieldByName('datahora').AsDateTime := now;
+  dm.FDQPedido.FieldByName('vlrpedido').AsFloat := vlrTotal;
+  dm.FDQPedido.FieldByName('statuspedido').AsString := 'A';
+  dm.FDQPedido.Post;
 
-dm.FDQItemPedido.FieldByName('idpedido').AsInteger :=dm.FDQPedido.FieldByName('id').AsInteger;
-dm.FDQItemPedido.FieldByName('idproduto').AsInteger := dm.FDQueryProdutoid.AsInteger;
-dm.FDQItemPedido.FieldByName('qteproduto').AsInteger := dm.FDQItemPedido.FieldByName('qteproduto').AsInteger + 1;
-dm.FDQItemPedido.FieldByName('vlritem').AsFloat := dm.FDQueryProdutovalor.AsFloat;
-dm.FDQItemPedido.Post;
+  dm.FDQItemPedido.FieldByName('idpedido').AsInteger :=
+    dm.FDQPedido.FieldByName('id').AsInteger;
+  dm.FDQItemPedido.FieldByName('idproduto').AsInteger :=
+    dm.FDQueryProdutoid.AsInteger;
+  dm.FDQItemPedido.FieldByName('qteproduto').AsInteger :=
+    dm.FDQItemPedido.FieldByName('qteproduto').AsInteger + 1;
+  dm.FDQItemPedido.FieldByName('vlritem').AsFloat :=
+    dm.FDQueryProdutovalor.AsFloat;
+  dm.FDQItemPedido.Post;
 
 end;
 
@@ -189,14 +194,6 @@ begin
     rect.AddObject(lbl);
   end;
 
-  lbl := TLabel.Create(react_barra);
-  with lbl do
-  begin
-    StyledSettings := StyledSettings - [TStyledSetting.Size,
-      TStyledSetting.FontColor, TStyledSetting.Style];
-
-  end;
-
   // ImgFavoritos
   img := TImage.Create(rect);
   if not favorito(id) then
@@ -245,6 +242,7 @@ begin
       Position.Y := 5;
       name := 'imgheartYesSel' + IntToStr(id);
       TagString := IntToStr(id);
+      OnClick := RemoverFavoritos;
       Visible := true;
       rect.AddObject(img);
     end;
@@ -252,106 +250,84 @@ begin
   VertScrollBoxMinhaLista.AddObject(rect);
 end;
 
-procedure TFrmPrincipal.CarregarListaFavoritos(id: integer;
-  nome, descricao: string; valor: double);
+procedure TFrmPrincipal.CarregarListaFavoritos;
 var
   rect, rect_barra: TRectangle;
   rect_icone: TCircle;
   lbl: TLabel;
   img: TImage;
   i, valorEstrela: integer;
+
 begin
-  // fundo
-  rect := TRectangle.Create(VertScrollFavoritos);
-  with rect do
-  begin
-    Align := TAlignLayout.Top;
-    Height := 110;
-    Fill.Color := $FFFFFFFF;
-    Stroke.Kind := TBrushKind.Solid;
-    Stroke.Color := $FFD4D5D7;
-    Margins.Top := 10;
-    Margins.Left := 10;
-    Margins.Right := 10;
-    XRadius := 8;
-    YRadius := 8;
-    TagString := IntToStr(id);
-  end;
-  // Barra inferior...
-  rect_barra := TRectangle.Create(rect);
-  with rect_barra do
-  begin
-    Align := TAlignLayout.Bottom;
-    Height := 45;
-    Fill.Color := $FFF4F4F4;
-    Stroke.Kind := TBrushKind.Solid;
-    Stroke.Color := $FFD4D5D7;
-    Sides := [TSide.Left, TSide.Bottom, TSide.Right];
-    XRadius := 8;
-    YRadius := 8;
-    Corners := [TCorner.BottomLeft, TCorner.BottomRight];
-    HitTest := False;
-    rect.AddObject(rect_barra);
-  end;
+  dm.FDQListaFavoritos.Close;
+  dm.FDQListaFavoritos.Open();
 
-  lbl := TLabel.Create(rect);
-  with lbl do
+  while not dm.FDQListaFavoritos.Eof do
+
   begin
-    StyledSettings := StyledSettings - [TStyledSetting.Size,
-      TStyledSetting.FontColor, TStyledSetting.Style];
-    TextSettings.FontColor := $FF333333;
-    Text := nome;
-    font.Size := 16;
-    font.Style := [TFontStyle.fsBold];
-    Position.x := 50;
-    Position.Y := 10;
-    Width := 200;
-    rect.AddObject(lbl);
-  end;
-  lbl := TLabel.Create(rect_barra);
-  with lbl do
-  begin
-    StyledSettings := StyledSettings - [TStyledSetting.Size,
-      TStyledSetting.FontColor, TStyledSetting.Style];
-    TextSettings.FontColor := $FFDF0B0B;
-    Text := descricao;
-    font.Size := 11;
-    font.Style := [TFontStyle.fsBold];
-    Position.x := 5;
-    Position.Y := 70;
-    Width := 500;
-    rect.AddObject(lbl);
-  end;
-  // ImgFavoritos
-  img := TImage.Create(rect);
-  if not favorito(id) then
-  begin
-    with img do
+    // fundo
+    rect := TRectangle.Create(VertScrollFavoritos);
+    with rect do
     begin
-{$IFDEF MSWINDOWS}
-      Bitmap.LoadFromFile
-        (IOUtils.TPath.Combine('D:\Users\rrobasseto\Desktop\Mobile\img',
-        'heart_nosel.png'));
-{$ENDIF}
-{$IF DEFINED(iOS) or DEFINED(ANDROID)}
-      Bitmap.LoadFromFile
-        (IOUtils.TPath.Combine(System.IOUtils.TPath.GetDocumentsPath,
-        'heart_nosel.png'));
-{$ENDIF}
-      Height := 30;
-      Width := 30;
-      Position.x := 210;
-      Position.Y := 5;
-      name := 'imgheartNoSel' + IntToStr(id);
-      TagString := IntToStr(id);
-      OnClick := AddFavoritos;
-      Visible := true;
-      rect.AddObject(img);
+      Align := TAlignLayout.Top;
+      Height := 110;
+      Fill.Color := $FFFFFFFF;
+      Stroke.Kind := TBrushKind.Solid;
+      Stroke.Color := $FFD4D5D7;
+      Margins.Top := 10;
+      Margins.Left := 10;
+      Margins.Right := 10;
+      XRadius := 8;
+      YRadius := 8;
+      TagString := IntToStr(dm.FDQListaFavoritosid.AsInteger);
     end;
-  end
-  else
-  begin
+    // Barra inferior...
+    rect_barra := TRectangle.Create(rect);
+    with rect_barra do
+    begin
+      Align := TAlignLayout.Bottom;
+      Height := 45;
+      Fill.Color := $FFF4F4F4;
+      Stroke.Kind := TBrushKind.Solid;
+      Stroke.Color := $FFD4D5D7;
+      Sides := [TSide.Left, TSide.Bottom, TSide.Right];
+      XRadius := 8;
+      YRadius := 8;
+      Corners := [TCorner.BottomLeft, TCorner.BottomRight];
+      HitTest := False;
+      rect.AddObject(rect_barra);
+    end;
 
+    lbl := TLabel.Create(rect);
+    with lbl do
+    begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size,
+        TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor := $FF333333;
+      Text := dm.FDQListaFavoritosnome.AsString;
+      font.Size := 16;
+      font.Style := [TFontStyle.fsBold];
+      Position.x := 50;
+      Position.Y := 10;
+      Width := 200;
+      rect.AddObject(lbl);
+    end;
+    lbl := TLabel.Create(rect_barra);
+    with lbl do
+    begin
+      StyledSettings := StyledSettings - [TStyledSetting.Size,
+        TStyledSetting.FontColor, TStyledSetting.Style];
+      TextSettings.FontColor := $FFDF0B0B;
+      Text := dm.FDQListaFavoritosdescricao.AsString;
+      font.Size := 11;
+      font.Style := [TFontStyle.fsBold];
+      Position.x := 5;
+      Position.Y := 70;
+      Width := 500;
+      rect.AddObject(lbl);
+    end;
+    // ImgFavoritos
+    img := TImage.Create(rect);
     with img do
     begin
 {$IFDEF MSWINDOWS}
@@ -362,19 +338,22 @@ begin
 {$IF DEFINED(iOS) or DEFINED(ANDROID)}
       Bitmap.LoadFromFile
         (IOUtils.TPath.Combine(System.IOUtils.TPath.GetDocumentsPath,
-        'heart_yessel.png'));
+        'heart_nosel.png'));
 {$ENDIF}
       Height := 30;
       Width := 30;
       Position.x := 210;
       Position.Y := 5;
-      name := 'imgheartYesSel' + IntToStr(id);
-      TagString := IntToStr(id);
+      name := 'imgheartYesSel' + dm.FDQListaFavoritosid.AsString;
+      TagString := IntToStr(dm.FDQListaFavoritosid.AsInteger);
+      OnClick := RemoverFavoritos;
       Visible := true;
       rect.AddObject(img);
     end;
+    VertScrollFavoritos.AddObject(rect);
+    dm.FDQListaFavoritos.next;
   end;
-  VertScrollFavoritos.AddObject(rect);
+
 end;
 
 function TFrmPrincipal.favorito(id: integer): boolean;
@@ -392,26 +371,26 @@ end;
 procedure TFrmPrincipal.FormCreate(Sender: TObject);
 begin
   GetProdutosBase;
-  GetProdutosFavoritos;
+  CarregarListaFavoritos;
+  GetInforamacoesUsuario;
   ChangeTabAction1.Execute;
 end;
 
 procedure TFrmPrincipal.GetInforamacoesUsuario;
 begin
-  dm.FDQueryPessoa.Close;
-  dm.FDQueryPessoa.Open();
-while not dm.FDQueryPessoa.Eof do
-begin
-    EditNome.text := dm.FDQueryPessoanome.AsString;
-    EditCPF.text := dm.FDQueryPessoacpf.AsString;
-    EditCelular.text := dm.FDQueryPessoacelular.AsString;
-    EditEmail.text := dm.FDQueryPessoaemail.AsString;
-    EditEndereco.text := dm.FDQueryPessoaendereco.AsString;
-    EditCidade.text := dm.FDQueryPessoacidade.AsString;
-    EditUF.text := dm.FDQueryPessoauf.AsString;
-    EditBairro.text := dm.FDQueryPessoabairro.AsString;
-    dm.FDQueryPessoa.next;
-end;
+  dm.FDQueryLogado.Close;
+  dm.FDQueryLogado.ParamByName('pid').AsInteger := FrmCadastro.usuariologado;
+  dm.FDQueryLogado.Open();
+
+  EditNome.Text := dm.FDQueryPessoanome.AsString;
+  EditCPF.Text := dm.FDQueryPessoacpf.AsString;
+  EditCelular.Text := dm.FDQueryPessoacelular.AsString;
+  EditEmail.Text := dm.FDQueryPessoaemail.AsString;
+  EditEndereco.Text := dm.FDQueryPessoaendereco.AsString;
+  EditCidade.Text := dm.FDQueryPessoacidade.AsString;
+  EditUF.Text := dm.FDQueryPessoauf.AsString;
+  EditBairro.Text := dm.FDQueryPessoabairro.AsString;
+
 end;
 
 procedure TFrmPrincipal.GetProdutosBase;
@@ -428,17 +407,34 @@ begin
 
 end;
 
-procedure TFrmPrincipal.GetProdutosFavoritos;
+procedure TFrmPrincipal.RemoverFavoritos(Sender: TObject);
+var
+  AId: string;
 begin
-  dm.FDQFavoritos.Close;
-  dm.FDQFavoritos.Open();
-  while not dm.FDQListaFavoritos.Eof do
-  begin
-    CarregarListaFavoritos(dm.FDQListaFavoritosid.AsInteger,
-      dm.FDQListaFavoritosnome.AsString, dm.FDQListaFavoritosdescricao.AsString,
-      dm.FDQListaFavoritosvalor.AsFloat);
-    dm.FDQListaFavoritos.next;
-  end;
+  AId := (TRectangle(Sender).TagString);
+  dm.FDQueryProduto.Locate('id', AId, []);
+  dm.FDQueryProduto.Edit;
+  dm.FDQueryProdutofavorito.AsString := 'N';
+  dm.FDQueryProduto.Post;
+  ShowMessage('Removido ao seus favoritos');
+
+end;
+
+procedure TFrmPrincipal.SalvarClick(Sender: TObject);
+begin
+  dm.FDQueryPessoa.Edit;
+
+  dm.FDQueryPessoanome.AsString := EditNome.Text;
+  dm.FDQueryPessoacpf.AsString := EditCPF.Text;
+  dm.FDQueryPessoacelular.AsString := EditCelular.Text;
+  dm.FDQueryPessoaemail.AsString := EditEmail.Text;
+  dm.FDQueryPessoaendereco.AsString := EditEndereco.Text;
+  dm.FDQueryPessoacidade.AsString := EditCidade.Text;
+  dm.FDQueryPessoauf.AsString := EditUF.Text;
+  dm.FDQueryPessoabairro.AsString := EditBairro.Text;
+  dm.FDQueryPessoa.Post;
+
+  ShowMessage('Alteração feita com sucesso!');
 end;
 
 end.

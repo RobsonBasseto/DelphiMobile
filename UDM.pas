@@ -51,6 +51,7 @@ type
     FDQListaFavoritosimg_produto: TBlobField;
     FDQPedido: TFDQuery;
     FDQItemPedido: TFDQuery;
+    FDQueryLogado: TFDQuery;
     procedure FDConnection1BeforeConnect(Sender: TObject);
     procedure FDConnection1AfterConnect(Sender: TObject);
   private
@@ -99,7 +100,7 @@ begin
   FDConnection1.ExecSQL(strSQL);
 
   strSQL := EmptyStr;
-  strSQL := 'create table IF NOT EXIST pedido('+
+  strSQL := 'create table IF NOT EXISTS pedido('+
   'id integer primary key,'+
   'idpessoa integer,'+
   'datahora datetime,'+
@@ -108,7 +109,7 @@ begin
   FDConnection1.ExecSQL(strSQL);
 
   strSQL := EmptyStr;
-  strSQL := 'create table IF NOT EXIST itemPedido('+
+  strSQL := 'create table IF NOT EXISTS itemPedido('+
   'id integer primary key,'+
   'idproduto integer,'+
   'idpedido integer,'+

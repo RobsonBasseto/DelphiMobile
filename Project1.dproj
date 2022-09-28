@@ -159,10 +159,6 @@
             <Form>FrmCadastro</Form>
             <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="ULogin.pas">
-            <Form>FrmLogin</Form>
-            <FormType>fmx</FormType>
-        </DCCReference>
         <DCCReference Include="UDM.pas">
             <Form>dm</Form>
             <FormType>dfm</FormType>

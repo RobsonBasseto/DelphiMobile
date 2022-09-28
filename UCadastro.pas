@@ -59,9 +59,11 @@ type
     procedure Image_exibirClick(Sender: TObject);
     procedure ImageEsconderClick(Sender: TObject);
     procedure ImageExibirClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
+  usuariologado : integer;
     { Public declarations }
     function SHA1(AString: string): string;
   end;
@@ -73,7 +75,7 @@ implementation
 
 {$R *.fmx}
 
-uses UDM, Unit4, UPrincipal;
+uses UDM, UPrincipal;
 
 procedure TFrmCadastro.BtnCadastroClick(Sender: TObject);
 var
@@ -108,6 +110,7 @@ begin
   then
   begin
     if not Assigned(FrmPrincipal) then
+    usuariologado := dm.FDQueryPessoaid.AsInteger;
       Application.CreateForm(TFrmPrincipal, FrmPrincipal);
     FrmPrincipal.Show;
   end
@@ -115,6 +118,12 @@ begin
   begin
     ShowMessage('Login ou senha incorretos');
   end;
+end;
+
+procedure TFrmCadastro.FormCreate(Sender: TObject);
+begin
+      editSenhaLogin.Password := false;
+       editSenhaCadastro.Password := false;
 end;
 
 procedure TFrmCadastro.ImageEsconderClick(Sender: TObject);
@@ -159,6 +168,7 @@ end;
 procedure TFrmCadastro.LabelPularClick(Sender: TObject);
 begin
   ChangeTabAction3.Execute;
+   editSenhaLogin.Password := false;
 end;
 
 function TFrmCadastro.SHA1(AString: string): string;
