@@ -35,4 +35,7 @@
     <Transaction>2022/09/09 19:46:26.000.473,D:\Users\rrobasseto\Desktop\Mobile\Unit5.pas=</Transaction>
     <Transaction>2022/09/19 18:54:31.000.904,D:\Users\rrobasseto\Desktop\Mobile\ULogin.pas=</Transaction>
   </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile Android="" Android64="ZTYLZ9CUGQZLGMJB"/>
+	</ActiveMobileDevice>
 </BorlandProject>

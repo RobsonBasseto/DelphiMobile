@@ -133,11 +133,11 @@ var
 strPath: string;
 begin
   {$IF DEFINED(iOS) or DEFINED(ANDROID)}
-       strPath:= System.IOUtils.Tpath.Combine(System.IOUtils.TPath.GetDocumentPath,
+       strPath:= System.IOUtils.Tpath.Combine(System.IOUtils.TPath.GetDocumentsPath,
        'Banco.bd');
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-      strPath := System.IOUtils.Tpath.Combine('D:\Users\rrobasseto\Desktop\Mobile\BD\','banco.db');
+      strPath := System.IOUtils.Tpath.Combine('D:\Users\rrobasseto\Desktop\Mobile\BD\','Banco.db');
   {$ENDIF}
        FDconnection1.Params.Values['UseUnicode'] :='False';
        FDconnection1.Params.Values['DATABASE'] :=strPath;
